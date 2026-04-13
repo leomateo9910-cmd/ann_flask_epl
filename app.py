@@ -1,9 +1,8 @@
 from flask import Flask, render_template, request
 import numpy as np
-from tensorflow.keras.models import load_model
 import joblib
 import matplotlib
-matplotlib.use('Agg')  # 🔥 WAJIB (biar tidak crash)
+matplotlib.use('Agg')  # 🔥 WAJIB (biar tidak crash di server)
 import matplotlib.pyplot as plt
 import os
 import pandas as pd
@@ -13,11 +12,11 @@ app = Flask(__name__)
 # 🔥 PATH AMAN
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-model_path = os.path.join(BASE_DIR, "model_epl.h5")
+model_path = os.path.join(BASE_DIR, "model.pkl")
 scaler_path = os.path.join(BASE_DIR, "scaler.save")
 
-# 🔥 LOAD MODEL (sekali saja, aman)
-model = load_model(model_path)
+# 🔥 LOAD MODEL RINGAN
+model = joblib.load(model_path)
 scaler = joblib.load(scaler_path)
 
 # Logo mapping
@@ -63,11 +62,13 @@ def predict():
             float(request.form['points'])
         ]
 
-        # Prediksi
+        # 🔥 SCALE + PREDICT
         data_scaled = scaler.transform([data])
         pred = model.predict(data_scaled)
 
-        hasil = "MASUK TOP 5 🔥" if pred[0][0] > 0.5 else "TIDAK MASUK TOP 5 ❌"
+        # 🔥 HASIL (sklearn)
+        hasil = "MASUK TOP 5 🔥" if pred[0] == 1 else "TIDAK MASUK TOP 5 ❌"
+
         logo = logo_dict.get(team, "default.png")
 
         # Grafik
@@ -98,6 +99,5 @@ def predict():
 
 # 🔥 WAJIB UNTUK RAILWAY
 if __name__ == "__main__":
-    import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
