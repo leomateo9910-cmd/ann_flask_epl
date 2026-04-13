@@ -1,0 +1,71 @@
+body {
+    background: linear-gradient(to right, #37003c, #00ff87);
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* BOX UTAMA */
+.container-box {
+    background: rgba(0,0,0,0.75);
+    padding: 30px;
+    border-radius: 20px;
+    max-width: 600px;
+    margin: auto;
+}
+
+/* HASIL BOX */
+.result-box {
+    margin-top: 20px;
+    padding: 20px;
+    background: #111;
+    border-radius: 15px;
+}
+
+/* BUTTON */
+button {
+    font-weight: bold;
+}
+
+/* RESPONSIVE TABLET & HP */
+@media (max-width: 768px) {
+
+    .container-box {
+        padding: 20px;
+        border-radius: 15px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    h4 {
+        font-size: 16px;
+    }
+
+    input, select, button {
+        font-size: 14px;
+    }
+}
+
+/* RESPONSIVE HP KECIL */
+@media (max-width: 480px) {
+
+    .container-box {
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .result-box {
+        padding: 15px;
+    }
+
+    button {
+        font-size: 14px;
+    }
+}
